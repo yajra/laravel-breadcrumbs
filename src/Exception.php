@@ -1,4 +1,7 @@
-<?php namespace Yajra\Breadcrumbs;
+<?php
 
-class Exception extends \Exception {
+namespace Yajra\Breadcrumbs;
+
+class Exception extends \Exception
+{
 }

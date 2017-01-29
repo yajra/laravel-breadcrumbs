@@ -1,160 +1,174 @@
-<?php namespace Yajra\Breadcrumbs;
+<?php
 
-class Manager {
+namespace Yajra\Breadcrumbs;
 
-	protected $currentRoute;
-	protected $generator;
-	protected $view;
+class Manager
+{
+    protected $currentRoute;
 
-	protected $callbacks = [];
-	protected $viewName;
-	protected $currentRouteManual;
+    protected $generator;
 
-	public function __construct(CurrentRoute $currentRoute, Generator $generator, View $view)
-	{
-		$this->generator    = $generator;
-		$this->currentRoute = $currentRoute;
-		$this->view         = $view;
-	}
+    protected $view;
 
-	public function register($name, $callback)
-	{
-		if (isset($this->callbacks[$name]))
-			throw new Exception("Breadcrumb name \"{$name}\" has already been registered");
-		$this->callbacks[$name] = $callback;
-	}
+    protected $callbacks = [];
 
-	public function exists($name = null)
-	{
-		if (is_null($name)) {
-			try {
-				list($name) = $this->currentRoute->get();
-			} catch (Exception $e) {
-				return false;
-			}
-		}
+    protected $viewName;
 
-		return isset($this->callbacks[$name]);
-	}
+    protected $currentRouteManual;
 
-	public function generate($name = null)
-	{
-		if (is_null($name))
-			list($name, $params) = $this->currentRoute->get();
-		else
-			$params = array_slice(func_get_args(), 1);
+    public function __construct(CurrentRoute $currentRoute, Generator $generator, View $view)
+    {
+        $this->generator    = $generator;
+        $this->currentRoute = $currentRoute;
+        $this->view         = $view;
+    }
 
-		return $this->generator->generate($this->callbacks, $name, $params);
-	}
+    public function register($name, $callback)
+    {
+        if (isset($this->callbacks[$name])) {
+            throw new Exception("Breadcrumb name \"{$name}\" has already been registered");
+        }
+        $this->callbacks[$name] = $callback;
+    }
 
-	public function generateArray($name, $params = [])
-	{
-		return $this->generator->generate($this->callbacks, $name, $params);
-	}
+    public function generate($name = null)
+    {
+        if (is_null($name)) {
+            list($name, $params) = $this->currentRoute->get();
+        } else {
+            $params = array_slice(func_get_args(), 1);
+        }
 
-	public function generateIfExists($name = null)
-	{
-		if (is_null($name))
-			list($name, $params) = $this->currentRoute->get();
-		else
-			$params = array_slice(func_get_args(), 1);
+        return $this->generator->generate($this->callbacks, $name, $params);
+    }
 
-		if (!$this->exists($name))
-			return [];
+    public function generateArray($name, $params = [])
+    {
+        return $this->generator->generate($this->callbacks, $name, $params);
+    }
 
-		return $this->generator->generate($this->callbacks, $name, $params);
-	}
+    public function generateIfExists($name = null)
+    {
+        if (is_null($name)) {
+            list($name, $params) = $this->currentRoute->get();
+        } else {
+            $params = array_slice(func_get_args(), 1);
+        }
 
-	public function generateIfExistsArray($name, $params = [])
-	{
-		if (!$this->exists($name))
-			return [];
+        if (! $this->exists($name)) {
+            return [];
+        }
 
-		return $this->generator->generate($this->callbacks, $name, $params);
-	}
+        return $this->generator->generate($this->callbacks, $name, $params);
+    }
 
-	/**
-	 * @deprecated Since 3.0.0
-	 * @see generateIfExistsArray
-	 */
-	public function generateArrayIfExists()
-	{
-		return call_user_func_array([$this, 'generateIfExistsArray'], func_get_args());
-	}
+    public function exists($name = null)
+    {
+        if (is_null($name)) {
+            try {
+                list($name) = $this->currentRoute->get();
+            } catch (Exception $e) {
+                return false;
+            }
+        }
 
-	public function render($name = null)
-	{
-		if (is_null($name))
-			list($name, $params) = $this->currentRoute->get();
-		else
-			$params = array_slice(func_get_args(), 1);
+        return isset($this->callbacks[$name]);
+    }
 
-		$breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
+    public function generateIfExistsArray($name, $params = [])
+    {
+        if (! $this->exists($name)) {
+            return [];
+        }
 
-		return $this->view->render($this->viewName, $breadcrumbs);
-	}
+        return $this->generator->generate($this->callbacks, $name, $params);
+    }
 
-	public function renderArray($name, $params = [])
-	{
-		$breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
+    /**
+     * @deprecated Since 3.0.0
+     * @see generateIfExistsArray
+     */
+    public function generateArrayIfExists()
+    {
+        return call_user_func_array([$this, 'generateIfExistsArray'], func_get_args());
+    }
 
-		return $this->view->render($this->viewName, $breadcrumbs);
-	}
+    public function render($name = null)
+    {
+        if (is_null($name)) {
+            list($name, $params) = $this->currentRoute->get();
+        } else {
+            $params = array_slice(func_get_args(), 1);
+        }
 
-	public function renderIfExists($name = null)
-	{
-		if (is_null($name))
-			list($name, $params) = $this->currentRoute->get();
-		else
-			$params = array_slice(func_get_args(), 1);
+        $breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
 
-		if (!$this->exists($name))
-			return '';
+        return $this->view->render($this->viewName, $breadcrumbs);
+    }
 
-		$breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
+    public function renderArray($name, $params = [])
+    {
+        $breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
 
-		return $this->view->render($this->viewName, $breadcrumbs);
-	}
+        return $this->view->render($this->viewName, $breadcrumbs);
+    }
 
-	public function renderIfExistsArray($name, $params = [])
-	{
-		if (!$this->exists($name))
-			return '';
+    public function renderIfExists($name = null)
+    {
+        if (is_null($name)) {
+            list($name, $params) = $this->currentRoute->get();
+        } else {
+            $params = array_slice(func_get_args(), 1);
+        }
 
-		$breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
+        if (! $this->exists($name)) {
+            return '';
+        }
 
-		return $this->view->render($this->viewName, $breadcrumbs);
-	}
+        $breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
 
-	/**
-	 * @deprecated Since 3.0.0
-	 * @see renderIfExistsArray
-	 */
-	public function renderArrayIfExists()
-	{
-		return call_user_func_array([$this, 'renderIfExistsArray'], func_get_args());
-	}
+        return $this->view->render($this->viewName, $breadcrumbs);
+    }
 
-	public function setCurrentRoute($name)
-	{
-		$params = array_slice(func_get_args(), 1);
+    public function renderIfExistsArray($name, $params = [])
+    {
+        if (! $this->exists($name)) {
+            return '';
+        }
 
-		$this->currentRoute->set($name, $params);
-	}
+        $breadcrumbs = $this->generator->generate($this->callbacks, $name, $params);
 
-	public function setCurrentRouteArray($name, $params = [])
-	{
-		$this->currentRoute->set($name, $params);
-	}
+        return $this->view->render($this->viewName, $breadcrumbs);
+    }
 
-	public function clearCurrentRoute()
-	{
-		$this->currentRoute->clear();
-	}
+    /**
+     * @deprecated Since 3.0.0
+     * @see renderIfExistsArray
+     */
+    public function renderArrayIfExists()
+    {
+        return call_user_func_array([$this, 'renderIfExistsArray'], func_get_args());
+    }
 
-	public function setView($view)
-	{
-		$this->viewName = $view;
-	}
+    public function setCurrentRoute($name)
+    {
+        $params = array_slice(func_get_args(), 1);
 
+        $this->currentRoute->set($name, $params);
+    }
+
+    public function setCurrentRouteArray($name, $params = [])
+    {
+        $this->currentRoute->set($name, $params);
+    }
+
+    public function clearCurrentRoute()
+    {
+        $this->currentRoute->clear();
+    }
+
+    public function setView($view)
+    {
+        $this->viewName = $view;
+    }
 }
