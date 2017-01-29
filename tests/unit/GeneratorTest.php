@@ -1,6 +1,6 @@
 <?php
 
-use DaveJamesMiller\Breadcrumbs\Generator;
+use Yajra\Breadcrumbs\Generator;
 use Mockery as m;
 
 class GeneratorTest extends TestCase {

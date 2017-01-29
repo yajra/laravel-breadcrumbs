@@ -10,7 +10,13 @@
 			"name": "Dave James Miller",
 			"email": "dave@davejamesmiller.com",
 			"homepage": "https://davejamesmiller.com/"
+		},
+		{
+			"name": "Arjay Angeles",
+			"email": "aqangeles@gmail.com",
+			"homepage": "https://yajrabox.com/"
 		}
+
 	],
 	"license": "MIT License",
 	"require": {
@@ -26,7 +32,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"DaveJamesMiller\\Breadcrumbs\\": "src/"
+			"Yajra\\Breadcrumbs\\": "src/"
 		}
 	}
 }

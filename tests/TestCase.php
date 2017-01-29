@@ -5,14 +5,14 @@ abstract class TestCase extends Orchestra\Testbench\TestCase {
 	protected function getPackageProviders($app)
 	{
 		return [
-			DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+			Yajra\Breadcrumbs\ServiceProvider::class,
 		];
 	}
 
 	protected function getPackageAliases($app)
 	{
 		return [
-			'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class
+			'Breadcrumbs' => Yajra\Breadcrumbs\Facade::class
 		];
 	}
 

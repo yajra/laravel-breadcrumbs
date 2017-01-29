@@ -1,4 +1,4 @@
-<?php namespace DaveJamesMiller\Breadcrumbs;
+<?php namespace Yajra\Breadcrumbs;
 
 class Manager {
 

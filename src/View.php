@@ -1,4 +1,4 @@
-<?php namespace DaveJamesMiller\Breadcrumbs;
+<?php namespace Yajra\Breadcrumbs;
 
 use Illuminate\Contracts\View\Factory as ViewFactory;
 
@@ -14,7 +14,7 @@ class View {
 	public function render($view, $breadcrumbs)
 	{
 		if (!$view)
-			throw new Exception('Breadcrumbs view not specified (check the view in config/breadcrumbs.php, and ensure DaveJamesMiller\Breadcrumbs\ServiceProvider is loaded before any dependants in config/app.php)');
+			throw new Exception('Breadcrumbs view not specified (check the view in config/breadcrumbs.php, and ensure Yajra\Breadcrumbs\ServiceProvider is loaded before any dependants in config/app.php)');
 
 		return $this->factory->make($view, compact('breadcrumbs'))->render();
 	}

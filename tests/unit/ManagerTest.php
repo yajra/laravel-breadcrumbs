@@ -1,6 +1,6 @@
 <?php
 
-use DaveJamesMiller\Breadcrumbs\Manager;
+use Yajra\Breadcrumbs\Manager;
 use Mockery as m;
 
 class ManagerTest extends TestCase {
@@ -9,9 +9,9 @@ class ManagerTest extends TestCase {
 	{
 		parent::setUp();
 
-		$this->currentRoute = m::mock('DaveJamesMiller\Breadcrumbs\CurrentRoute');
-		$this->generator    = m::mock('DaveJamesMiller\Breadcrumbs\Generator');
-		$this->view         = m::mock('DaveJamesMiller\Breadcrumbs\View');
+		$this->currentRoute = m::mock('Yajra\Breadcrumbs\CurrentRoute');
+		$this->generator    = m::mock('Yajra\Breadcrumbs\Generator');
+		$this->view         = m::mock('Yajra\Breadcrumbs\View');
 		$this->manager      = new Manager($this->currentRoute, $this->generator, $this->view);
 
 		$this->manager->setView('view');

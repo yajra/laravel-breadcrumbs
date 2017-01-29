@@ -17,7 +17,7 @@ class CustomServiceProviderTest extends TestCase {
 
 }
 
-class CustomServiceProvider extends DaveJamesMiller\Breadcrumbs\ServiceProvider {
+class CustomServiceProvider extends Yajra\Breadcrumbs\ServiceProvider {
 
 	public function registerBreadcrumbs()
 	{

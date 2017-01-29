@@ -1,6 +1,6 @@
 <?php
 
-use DaveJamesMiller\Breadcrumbs\CurrentRoute;
+use Yajra\Breadcrumbs\CurrentRoute;
 use Mockery as m;
 
 class CurrentRouteTest extends TestCase {
@@ -9,7 +9,7 @@ class CurrentRouteTest extends TestCase {
 	{
 		parent::setUp();
 
-		$this->currentRoute = app('DaveJamesMiller\Breadcrumbs\CurrentRoute');
+		$this->currentRoute = app('Yajra\Breadcrumbs\CurrentRoute');
 	}
 
 	public function testNamedRoute()
@@ -39,7 +39,7 @@ class CurrentRouteTest extends TestCase {
 	}
 
     /**
-     * @expectedException DaveJamesMiller\Breadcrumbs\Exception
+     * @expectedException Yajra\Breadcrumbs\Exception
      * @expectedExceptionMessage The current route (GET /sample/unnamed) is not named - please check routes.php for an "as" parameter
      */
 	public function testUnnamedRoute()
