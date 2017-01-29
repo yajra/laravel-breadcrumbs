@@ -31,7 +31,7 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->app['breadcrumbs'] = $this->app->singleton(function ($app) {
+        $this->app->singleton('breadcrumbs', function ($app) {
             $breadcrumbs = $this->app->make('Yajra\Breadcrumbs\Manager');
 
             $viewPath = __DIR__ . '/../views/';
