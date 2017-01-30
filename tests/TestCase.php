@@ -1,39 +1,38 @@
 <?php
 
-abstract class TestCase extends Orchestra\Testbench\TestCase {
+abstract class TestCase extends Orchestra\Testbench\TestCase
+{
+    public function setUp()
+    {
+        parent::setUp();
 
-	protected function getPackageProviders($app)
-	{
-		return [
-			Yajra\Breadcrumbs\ServiceProvider::class,
-		];
-	}
+        $this->loadServiceProvider();
+    }
 
-	protected function getPackageAliases($app)
-	{
-		return [
-			'Breadcrumbs' => Yajra\Breadcrumbs\Facade::class
-		];
-	}
+    protected function loadServiceProvider()
+    {
+        // Need to trigger register() to test the views
+        $this->app->make('breadcrumbs');
+    }
 
-	public function setUp()
-	{
-		parent::setUp();
+    public function tearDown()
+    {
+        $this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
 
-		$this->loadServiceProvider();
-	}
+        Mockery::close();
+    }
 
-	protected function loadServiceProvider()
-	{
-		// Need to trigger register() to test the views
-		$this->app->make('breadcrumbs');
-	}
+    protected function getPackageProviders($app)
+    {
+        return [
+            Yajra\Breadcrumbs\ServiceProvider::class,
+        ];
+    }
 
-	public function tearDown()
-	{
-		$this->addToAssertionCount(Mockery::getContainer()->mockery_getExpectationCount());
-
-		Mockery::close();
-	}
-
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Breadcrumbs' => Yajra\Breadcrumbs\Facade::class,
+        ];
+    }
 }
