@@ -126,6 +126,7 @@ Then open ``config/breadcrumbs.php`` and edit this line:
 
 The possible values are:
 
+- `Bootstrap 4 <https://v4-alpha.getbootstrap.com/components/breadcrumb/>`_: ``breadcrumbs::bootstrap4``
 - `Bootstrap 3 <http://getbootstrap.com/components/#breadcrumbs>`_: ``breadcrumbs::bootstrap3``
 - `Bootstrap 2 <http://getbootstrap.com/2.3.2/components.html#breadcrumbs>`_: ``breadcrumbs::bootstrap2``
 - The path to a custom view: e.g. ``_partials/breadcrumbs``
