@@ -31,6 +31,7 @@ class IntegrationTest extends TestCase
     }
 
     public function testGenerate()
+    {
         $breadcrumbs = Breadcrumbs::generate('post', $this->post);
 
         $this->assertCount(3, $breadcrumbs);
